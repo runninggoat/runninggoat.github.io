@@ -43,7 +43,7 @@ class Index extends Component {
                 key={idx}
                 style={{ textAlign: 'center' }}
               >
-                <img src={paragraph.content} />
+                <img src={paragraph.content} style={{ width: '100%' }} />
               </div>
             )
           default:
@@ -64,6 +64,7 @@ class Index extends Component {
           <Grid
             item
             sm={6}
+            xs={10}
           >
             <Paper style={{
               padding: '10px 30px',
@@ -72,7 +73,7 @@ class Index extends Component {
                 container
                 justify='center'
               >
-                <Grid item sm={12}>
+                <Grid item sm={12} xs={12}>
                   <Typography
                     variant='h6'
                     align='left'
@@ -100,6 +101,7 @@ class Index extends Component {
           <Grid
             item
             sm={10}
+            xs={12}
             style={{ padding: '20px', borderBottom: '1px solid #545454' }}
           >
             <Typography
@@ -110,6 +112,7 @@ class Index extends Component {
           <Grid
             item
             sm={10}
+            xs={12}
           >
             <Grid
               container
@@ -127,6 +130,7 @@ class Index extends Component {
           <Grid
             item
             sm={10}
+            xs={12}
           >
             <Banner />
           </Grid>

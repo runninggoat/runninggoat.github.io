@@ -1,5 +1,24 @@
 const blogs = [
   {
+    uid: '002',
+    title: '2018年12月10日',
+    paragraphs: [
+      {
+        type: 'text',
+        content: '收集了一个自己的3D练习作品，用于演示多边形，可以再控制面板修改背景颜色、多边形的颜色、多边形的边数和多边形外接圆的半径。',
+      },
+      {
+        type: 'link',
+        content: '页面跳转',
+        href: './polygon_playground.html'
+      },
+      {
+        type: 'image',
+        content: './images/img20181210/img1.jpg',
+      },
+    ],
+  },
+  {
     uid: '001',
     title: '2018年12月9日',
     paragraphs: [

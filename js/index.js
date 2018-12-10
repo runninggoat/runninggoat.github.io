@@ -36,7 +36,7 @@ class Index extends Component {
                 style={{ margin: '5px 0' }}
               >{ paragraph.content }</Typography>
             )
-            break;
+            break
           case 'image':
             element = (
               <div
@@ -46,8 +46,25 @@ class Index extends Component {
                 <img src={paragraph.content} style={{ width: '100%' }} />
               </div>
             )
+            break
+          case 'link':
+            element = (
+              <div
+                key={idx}
+                style={{ textAlign: 'center' }}
+              >
+                <a href={paragraph.href}>
+                  <Typography
+                    variant='body1'
+                    align='center'
+                    style={{ margin: '5px 0' }}
+                  >{ paragraph.content }</Typography>
+                </a>
+              </div>
+            )
+            break
           default:
-            break;
+            break
         }
         return element
       })

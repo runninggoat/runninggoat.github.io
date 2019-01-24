@@ -1,29 +1,22 @@
 const Component = React.Component
-const {
-  Grid,
-  Button,
-  CssBaseline,
-  Typography,
-  Paper,
-} = window['material-ui']
+const { Grid, Button, CssBaseline, Typography, Paper } = window['material-ui']
 const tags = ['ThreeJS', 'ReactJS', '其它']
 
 class Index extends Component {
-  initTags () {
+  initTags() {
     return tags.map((tag, idx) => {
       return (
         <Grid item key={tag} style={{ padding: '10px' }}>
-          <Typography
-            variant='h6'
-            align='center'
-          >{tag}</Typography>
+          <Typography variant="h6" align="center">
+            {tag}
+          </Typography>
         </Grid>
       )
     })
   }
 
-  initBlogs () {
-    function initParagraphs (paragraphs) {
+  initBlogs() {
+    function initParagraphs(paragraphs) {
       return paragraphs.map((paragraph, idx) => {
         let element = null
         switch (paragraph.type) {
@@ -31,17 +24,23 @@ class Index extends Component {
             element = (
               <Typography
                 key={idx}
-                variant='body2'
-                align='left'
+                variant="body2"
+                align="left"
                 style={{ margin: '5px 0' }}
-              >{ paragraph.content }</Typography>
+              >
+                {paragraph.content}
+              </Typography>
             )
             break
           case 'image':
             element = (
               <div
                 key={idx}
-                style={{ textAlign: 'center' }}
+                style={{
+                  textAlign: 'center',
+                  paddingLeft: paragraph.slim ? 200 : 0,
+                  paddingRight: paragraph.slim ? 200 : 0,
+                }}
               >
                 <img src={paragraph.content} style={{ width: '100%' }} />
               </div>
@@ -49,16 +48,18 @@ class Index extends Component {
             break
           case 'link':
             element = (
-              <div
-                key={idx}
-                style={{ textAlign: 'center' }}
-              >
-                <a href={paragraph.href}>
+              <div key={idx} style={{ textAlign: 'center' }}>
+                <a
+                  href={paragraph.href}
+                  target={paragraph.newTab ? '_blank' : ''}
+                >
                   <Typography
-                    variant='body1'
-                    align='center'
+                    variant="body1"
+                    align="center"
                     style={{ margin: '5px 0' }}
-                  >{ paragraph.content }</Typography>
+                  >
+                    {paragraph.content}
+                  </Typography>
                 </a>
               </div>
             )
@@ -73,29 +74,23 @@ class Index extends Component {
       let content = initParagraphs(blog.paragraphs)
       return (
         <Grid
-          key={ blog.uid }
+          key={blog.uid}
           container
-          justify='center'
+          justify="center"
           style={{ margin: '10px 0' }}
         >
-          <Grid
-            item
-            sm={6}
-            xs={10}
-          >
-            <Paper style={{
-              padding: '10px 30px',
-            }}>
-              <Grid
-                container
-                justify='center'
-              >
+          <Grid item sm={6} xs={10}>
+            <Paper
+              style={{
+                padding: '10px 30px',
+              }}
+            >
+              <Grid container justify="center">
                 <Grid item sm={12} xs={12}>
-                  <Typography
-                    variant='h6'
-                    align='left'
-                  >{ blog.title }</Typography>
-                  { content }
+                  <Typography variant="h6" align="left">
+                    {blog.title}
+                  </Typography>
+                  {content}
                 </Grid>
               </Grid>
             </Paper>
@@ -105,61 +100,40 @@ class Index extends Component {
     })
   }
 
-  render () {
-    let tagsGrids = this.initTags()
-    let blogsGrids = this.initBlogs()
+  render() {
     return (
       <div>
         <CssBaseline />
-        <Grid
-          container
-          justify='center'
-        >
+        <Grid container justify="center">
           <Grid
             item
             sm={10}
             xs={12}
             style={{ padding: '20px', borderBottom: '1px solid #545454' }}
           >
-            <Typography
-              variant='h4'
-              align='center'
-            >以将图南</Typography>
+            <Typography variant="h4" align="center">
+              以将图南
+            </Typography>
           </Grid>
-          <Grid
-            item
-            sm={10}
-            xs={12}
-          >
-            <Grid
-              container
-              justify='space-around'
-            >
-              { tagsGrids }
+          <Grid item sm={10} xs={12}>
+            <Grid container justify="space-around">
+              {this.initTags()}
             </Grid>
           </Grid>
         </Grid>
-        <Grid
-          container
-          justify='center'
-          style={{ margin: '20px 0' }}
-        >
-          <Grid
-            item
-            sm={10}
-            xs={12}
-          >
+        <Grid container justify="center" style={{ margin: '20px 0' }}>
+          <Grid item sm={10} xs={12}>
             <Banner />
           </Grid>
         </Grid>
-        { blogsGrids }
+        {this.initBlogs()}
       </div>
     )
   }
 }
 
 class Banner extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       renderer: null,
@@ -173,11 +147,11 @@ class Banner extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.initThree()
   }
 
-  initThree () {
+  initThree() {
     //Init ThreeJS
     let banner = document.getElementById('banner')
     let width = banner.clientWidth
@@ -199,9 +173,14 @@ class Banner extends Component {
     // let control = new THREE.OrbitControls( camera, renderer.domElement )
 
     //Init light
-    let ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.3)
+    let ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
     scene.add(ambientLight)
-    let spotLight = new THREE.SpotLight(0xFFFFFF, 1.0, 1e3, 30 * Math.PI / 180)
+    let spotLight = new THREE.SpotLight(
+      0xffffff,
+      1.0,
+      1e3,
+      (30 * Math.PI) / 180
+    )
     spotLight.position.set(10, 10, 5)
     scene.add(spotLight)
 
@@ -221,8 +200,10 @@ class Banner extends Component {
       })
       geometry.computeBoundingBox()
       let mesh = new THREE.Mesh(geometry, typoMaterial)
-      mesh.position.x = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x )
-      mesh.position.y = - 0.3 * ( geometry.boundingBox.max.y - geometry.boundingBox.min.y )
+      mesh.position.x =
+        -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x)
+      mesh.position.y =
+        -0.3 * (geometry.boundingBox.max.y - geometry.boundingBox.min.y)
       let typoMesh = new THREE.Object3D()
       typoMesh.add(mesh)
       scene.add(typoMesh)
@@ -231,7 +212,7 @@ class Banner extends Component {
       })
     })
 
-    function animation () {
+    function animation() {
       requestAnimationFrame(animation)
 
       update()
@@ -239,17 +220,17 @@ class Banner extends Component {
     }
 
     let self = this
-    function update () {
+    function update() {
       if (self.state.typoMesh)
-        self.state.typoMesh.rotation.y += (0.4 * Math.PI / 180)
+        self.state.typoMesh.rotation.y += (0.4 * Math.PI) / 180
     }
 
-    function renderScene () {
+    function renderScene() {
       if (self.state.renderer && self.state.scene && self.state.camera)
         self.state.renderer.render(self.state.scene, self.state.camera)
     }
 
-    function updateCameraViewPort () {
+    function updateCameraViewPort() {
       let width = self.state.banner.clientWidth
       let height = self.state.banner.clientHeight
       self.state.renderer.setSize(width, height)
@@ -269,17 +250,9 @@ class Banner extends Component {
     })
   }
 
-  render () {
-    return (
-      <Paper
-        id='banner'
-        style={{ height: '300px' }}
-      ></Paper>
-    )
+  render() {
+    return <Paper id="banner" style={{ height: '300px' }} />
   }
 }
 
-ReactDOM.render(
-  <Index />,
-  document.getElementById('root')
-)
+ReactDOM.render(<Index />, document.getElementById('root'))
